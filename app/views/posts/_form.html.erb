@@ -1,0 +1,16 @@
+<div class="container" style="background:white;padding:50px">
+  
+  <h1 style="color:red;font-weight:bold">Add/Edit Inspiration</h1>
+<%= simple_form_for @post do |f| %>
+  <%= f.input :image %>
+<br>
+  <%= f.input :title %>
+<br>
+  <%= f.input :link %>
+<br>
+  <%= f.input :description %>
+<br>
+  <%= f.button :submit %>
+<br>
+<% end %>
+</div>

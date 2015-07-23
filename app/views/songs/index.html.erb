@@ -1,0 +1,57 @@
+<div class="container" id="share" style="background:#FFFFFF;bottom:10px">
+<!--<h2 style="color:red;">Share your tracks and upload them to S3</h2>-->
+  <img style="display: block;margin-left: auto;margin-right: auto " src='http://assets.rappler.com/612F469A6EA84F6BAE882D2B94A4B421/img/402066C85613444B9602EB0FC677C5D1/amazon-web-services-down-20140527.gif'></img>
+
+
+   <%= form_tag upload_path, :method => "post", :multipart => true do %>
+    <%= file_field_tag "mp3file" %>
+<br>
+    <%= submit_tag "Upload" %>
+
+<% end %>
+<br>
+
+<h2>Download and Delete Existing MP3's</h2>
+ <table id="table" style="padding:500px">
+    <thead>
+<tr>
+<th>Rank</th>
+<th>Country</th>
+<th>US $</th>
+<th>Year</th>
+</tr>
+</thead>
+   </td> <div style="display: block;margin-left: auto;margin-right: auto " id="audio"> 
+</div> <br>
+<% @songs.each do |song| %>
+ 
+    <tr>
+        <td><%= song.key %></td>
+      <td><%= link_to image_tag("http://danabands.dreamhtml.com/wp-content/themes/danabands/images/play-icon.png"), download_url_for(song.key), :class => "html5" %>
+      <td><%= link_to image_tag("http://upload.wikimedia.org/wikipedia/commons/e/e3/Ppbc_icon_download.png"), download_url_for(song.key) %></td>
+      <td><%= link_to image_tag("http://www.paychessentry.com/images/icons/delete-icon.png"),  "songs/delete/?song=" + song.key, :confirm => 'Are you sure you want to delete ' + song.key + '?' %></td>
+   
+   </tr>
+ 
+<% end %>
+   
+    </table>
+ 
+</div>
+<script>
+  $(document).ready(function() {
+    var audioSection = $('#audio');
+    $('#table').dynatable();
+    $('a.html5').click(function() {
+ 
+        var audio = $('<audio>', {
+             controls : 'controls'
+        });
+ 
+        var url = $(this).attr('href');
+        $('<source>').attr('src', url).appendTo(audio);
+        audioSection.html(audio);
+        return false;
+    });
+});
+</script>

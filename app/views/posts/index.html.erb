@@ -1,0 +1,72 @@
+<%= link_to href: '' do %>
+<%= image_tag 'http://www.bestgifever.com/data/images/2014/09/8mjh7i8.gif',:align=> "center", height:250,width:250,id: "drg"%>
+<% end %>
+
+<% if user_signed_in? %>
+<!--section-start-->
+  
+    <div id="intro" class="jumbortron" style="color:white;font-size:40px"><b> Hello <%= current_user.name %></b></div>
+    <div id="intro" class="jumbortron" style="color:white;font-size:40px"><b> Welcome to <span>Inspire</span></b></div>
+    <br/>
+    <h2 style="text-align:center">
+      Share your inspiration and see what's inspiring others.
+    </h2>
+ 
+<% else %>
+  <p id="intro">
+    <h3 style="text-align:center">What's your tag?<h3>
+    
+    <h2 style="text-align:center">
+      Share your inspiration and see what's inspiring others.
+    <h2>
+  </p>
+<% end %>
+      <!--section end-->
+<div style="padding:150px;bottom:100px" id="posts">
+  <% @posts.each do |post| %>
+    <div class="post">
+      <div class="post_image">
+        <%= link_to (image_tag post.image.url(:small)), post %>
+      </div>
+      <div class="post_content">
+        <div class="title">
+          <h2>
+            <%= link_to post.title, post %>
+          </h2>
+        </div>
+        <div class="data clearfix">
+          <p class="username">
+            Shared by
+            <%= post.user.name %>
+          </p>
+          <p class="buttons">
+            <span>
+              <i class="fa fa-comments-o"></i>
+              <%= post.comments.count %>
+            </span>
+            <span>
+              <i class="fa fa-thumbs-o-up"></i>
+              <%= post.get_likes.size %>
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+      <div>
+      <% form_tag posts_path, :method => 'get' do %>
+  <p>
+    <%= text_field_tag :search, params[:search] %>
+    <%= submit_tag "Search", :name => nil %>
+  <p>
+    <% end %>
+      </div>
+      
+      <div style="top:50px">
+      <iframe width='1500px' height='300' frameBorder='1' src='https://a.tiles.mapbox.com/v4/neeraj512.lnn57n5e/attribution,zoompan,zoomwheel,geocoder,share.html?access_token=pk.eyJ1IjoibmVlcmFqNTEyIiwiYSI6ImRiWlBua0UifQ.aTrnZr5s5d5jteg1uci4AA'></iframe></div>
+      <script>
+      $().ready(function() {
+                $('#wrapper').tubular({videoId: 'aZwev9_Y58A'}); // where idOfYourVideo is the YouTube ID.
+        });
+      </script>

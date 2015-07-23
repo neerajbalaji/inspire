@@ -1,0 +1,238 @@
+
+<!--<div class="area">
+ inspire
+</div>-->
+ 
+    <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.min.js"></script>
+
+
+ 
+   <section style="background:white;padding-right:100px;padding-top:50px;padding-left:50px;padding-bottom:1500px">
+
+  <div style="padding-left:950px;postion:absolute;text-align:center">
+    <p><b>Check what Spotify has got for you!</b></p>
+  </div>
+    <div style="left:1200px;position:absolute" class="col-md-4.5" id="results"></div>
+     <script id="results-template" type="text/x-handlebars-template">
+    {{#each albums.items}}
+    <div style="background-image:url({{images.0.url}})" data-album-id="{{id}}" class="cover">
+    <a href="{{external_urls.spotify}}">
+       </a>
+       </div>
+    {{/each}}
+</script>
+     <script>
+     // Find the template id and display results of a particular Tag / Title
+var templateSource = document.getElementById('results-template').innerHTML,
+    template = Handlebars.compile(templateSource),
+    resultsPlaceholder = document.getElementById('results'),
+    playingCssClass = 'playing',
+    audioObject = null;
+
+var fetchTracks = function (albumId, callback) {
+    $.ajax({
+        url: 'https://api.spotify.com/v1/albums/' + albumId,
+        success: function (response) {
+            callback(response);
+        }
+    });
+};
+
+var searchAlbums = function (query) {
+    $.ajax({
+        url: 'https://api.spotify.com/v1/search',
+        data: {
+            q: 'artist:' + query,
+            type: 'album',
+            market: "US"
+        },
+        success: function (response) {
+            resultsPlaceholder.innerHTML = template(response);
+        }
+    });
+};
+
+results.addEventListener('click', function(e) {
+    var target = e.target;
+    if (target !== null && target.classList.contains('cover')) {
+        if (target.classList.contains(playingCssClass)) {
+            audioObject.pause();
+        } else {
+            if (audioObject) {
+                audioObject.pause();
+            }
+            fetchTracks(target.getAttribute('data-album-id'), function(data) {            
+                audioObject = new Audio(data.tracks.items[0].preview_url);
+                audioObject.play();
+                target.classList.add(playingCssClass);
+                audioObject.addEventListener('ended', function() {
+                    target.classList.remove(playingCssClass);
+                });
+                audioObject.addEventListener('pause', function() {
+                    target.classList.remove(playingCssClass);
+               });
+            });
+        }
+    }
+});
+$( document ).ready(function(){
+	
+			var val1= $("#string").text();
+			searchAlbums(val1);
+	
+});
+     </script>
+ 
+<div id="post_show" >
+  <label id="string">
+    <h1><%= @post.title %></h1>
+  </label>
+  <p class="username">
+    Shared by
+    <%= @post.user.name %>
+    about
+    <%= time_ago_in_words(@post.created_at) %>
+    
+  </p>
+  
+  <div class="clearfix">
+    <div class="post_image_description">
+      <%= image_tag @post.image.url(:medium) %>
+      <div class="description">
+        <%= simple_format(@post.description) %>
+      </div>
+    </div>
+    <div class="post_data">
+      <%= link_to "Visit Link", @post.link, class: "button" %>
+      <%= link_to like_post_path(@post), method: :get, class: "data" do %>
+        <i class="fa fa-thumbs-o-up"></i>
+        <%= pluralize(@post.get_upvotes.size, "Like") %>
+      <% end %>
+      <%= link_to dislike_post_path(@post), method: :get, class: "data" do %>
+        <i class="fa fa-thumbs-o-down"></i>
+        <%= pluralize(@post.get_downvotes.size, "Dislike") %>
+      <% end %>
+      <p class="data">
+        <i class="fa fa-comments-o"></i>
+        <%= pluralize(@post.comments.count, "Comment") %>
+      </p>
+      <% if @post.user == current_user %>
+        <%= link_to "Edit", edit_post_path(@post), class: "data" %>
+        <%= link_to "Delete", post_path(@post), method: :delete, data: { confirm: "Are you sure?" }, class: "data" %>
+      <% end %>
+    </div>
+    
+  </div>
+
+
+<div id="comments">
+  <h2 class="comment_count">
+    <%= pluralize(@post.comments.count, "Comment") %>
+  </h2>
+  <% @comments.each do |comment| %>
+    <div class="comment">
+      <p class="username">
+        <%= comment.user.name %>
+      </p>
+      <p class="content">
+        <%= comment.content %>
+      </p>
+    </div>
+  <% end %>
+  <%= render "comments/form" %>
+</div>
+  
+     </div>
+    
+<!--<div id="tabs">
+    <ul>
+        <li>            <a href="#a">Billboard Top Charts</a>        </li> 
+        <li>            <a href="#b">Europe Top Charts</a>        </li>
+        <li>            <a href="#c">USA Top Charts</a>        </li>
+        
+    </ul>
+    <div id="a">    <div class="container">    <ul class="youtube-video-gallery1">    </ul>    </div>    </div>
+    <div id="b">    <div class="container">    <ul class="youtube-video-gallery2">    </ul>    </div>    </div>
+    <div id="c">    <div class="container">    <ul class="youtube-video-gallery3">    </ul>    </div>    </div>
+</div>-->
+      <div style="postion:absolute" class="col-lg-6" id="youtube-video-gallery1"> </div>
+  
+   <script>
+      $(document).ready(function(){var val1= $("#string").text();  
+          $("#youtube-video-gallery1").youtubeVideoGallery({
+            
+            apiFallbackUrl: 'https://www.youtube.com/results?search_query=Digital+Life',
+              apiUrl: 'https://gdata.youtube.com/feeds/api/videos?q='+ val1 +'&orderby=viewCount&start-index=1&alt=json&max-results=30&v=2&fullscreen=1'
+          });
+      });
+    // $('#tabs')
+   // .tabs()
+    //.addClass('ui-tabs-vertical ui-helper-clearfix');
+  </script>
+    
+ <div  id="connect">
+    <button class="btn btn-primary" id="btn-connect">Connect with twitter</button>
+</div>
+<div style="left 100px" class="col-md-8"id="res">
+   <!-- <div class="input-group">
+        <input type="text" class="form-control" value="#" id="search" />
+       <span class="input-group-btn">
+            <button class="btn btn-primary" type="button" id="btn-search">Search</button>
+        </span>
+    </div>-->
+    <div id="search-res"></div>
+</div>
+
+<script id="entry-template" type="text/x-handlebars-template">
+    <ul id="timeline">
+    {{#each statuses}}
+        <li>
+            <img class="thumbnail" src="{{user.profile_image_url}}" />
+            <span class="content">
+                <span class="author">{{user.name}}</span>
+                <span class="text">{{link text}}</span>
+            </span>
+        </li>
+    {{/each}}
+    </ul>
+</script>
+
+<script>
+
+  $('#btn-connect').click(function() {
+    //Initialize the SDK with my OAuth.io public key, then display the OAuth authorization form
+    OAuth.initialize('ONf48m1EPSpKthdy0RLG801bJz4')
+    OAuth.popup('twitter',function(err,twitter) {
+        //hide the connect and show the search form
+        $('#connect').slideUp('fast')
+        $('#res').slideDown('fast')
+        
+        //when click on the search button, make the search on Twitter and display the result
+        $(document).ready(function() {
+            var search = $('#string').text()
+            twitter.get('/1.1/search/tweets.json?q=' + search).done(function(data) {
+                var template = Handlebars.compile($('#entry-template').html())
+                var content = template({
+                    statuses: data.statuses
+                })
+                $('#search-res').html(content)
+            })
+        })
+        $('#btn-search').click()
+    })
+})
+
+//replace URL by html link
+Handlebars.registerHelper('link', function(text)  {
+    var exp = /((https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
+    var exp2 = /(@[A-Za-z0-9]+)/ig
+    return new Handlebars.SafeString(text.replace(exp,'<a href="$1">$1</a>').replace())
+})
+     </script>  
+     
+   </section>
+
+
+

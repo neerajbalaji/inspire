@@ -1,0 +1,8 @@
+#connect { text-align: center; padding-top: 15px}
+#connect p {color: #AAA; margin-top: 20px}
+#res { display: none; width: 500px; margin: 0 auto; margin-top: 30px; }
+#timeline { list-style-type: none; padding: 15px 10px; }
+#timeline li { clear: left; margin-bottom: 10px; padding-bottom: 10px; min-height: 70px; border-bottom: 1px solid #EEE }
+#timeline li .thumbnail { float: left; position: relative; left: -10px }
+#timeline li .content { display: block; margin-left: 15px; margin-top: 5px }
+#timeline li .author { font-weight: bold; display: block }

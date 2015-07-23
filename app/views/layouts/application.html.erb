@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <title> Tag It </title>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+ <!-- <link href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css" rel="stylesheet">-->
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+ 
+  <!--<video class="sleep-video" autoplay loop>
+    <source src="https://s3.amazonaws.com/apiapi/bg.mp4">
+
+</video>-->
+
+  
+  
+  <nav class="navbar navbar-default" style="">
+  <div class="container">
+    <div class="navbar-brand" id="logo">
+      <%= link_to "Inspire" ,root_path, id: "logo" %>
+    </div>
+    
+    <ul class="nav navbar-nav navbar-right">
+    	<li class="fb"><a href="https://www.facebook.com/IndieGala?fref=ts" 		title="Visit our Facebook page" 		target="_blank"><i class="fa fa-facebook">			</i></a></li>
+							<li class="tw"><a href="https://twitter.com/IndieGala" 						title="Visit our Twitter page" 			target="_blank"><i class="fa fa-twitter">			</i></a></li>
+							<li class="yt"><a href="https://www.youtube.com/user/IndieGala" 			title="Visit our Youtube channel" 		target="_blank"><i class="fa fa-youtube-play">		</i></a></li>
+							<li class="gp"><a href="https://plus.google.com/u/0/106638160915246664250/about" 			title="Visit our Google+ page" 		target="_blank"><i class="fa fa-google-plus"></i></a></li>
+							<li class="st"><a href="https://steamcommunity.com/groups/indiegala" 		title="Visit our Steam page" 			target="_blank"> <!-- <img src="/img/icons/steam-icon-w.png" /> <!-- <i class="fa fa-steam"></i> --></a></li>
+						</ul>
+
+    
+    
+    <% if user_signed_in? %>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+         <%= link_to current_user.name, edit_user_registration_path %>
+        </li>
+        <li>
+          <%= link_to "Add New Inspiration/Interest", new_post_path, class: "button", id: "logo" %>
+        </li>
+        <li>
+          <%= link_to "Sign Out", destroy_user_session_path, method: :delete , id: "logo"%>
+        </li>
+        <li>
+          <%= link_to "Share","/share",class: "button" %>
+        </li>
+      </ul>
+    <% else %>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <%= link_to "Sign Up", new_user_registration_path, class: "button", id: "logo" %>
+        </li>
+        <li>
+         <%= link_to "Sign in", new_user_session_path , id: "logo"%>
+        </li>
+      </ul>
+    <% end %>
+  </div>
+</nav>
+  <p class="notice">
+    <%= notice %>
+  </p>
+  <p class="alert">
+    <%= alert %>
+  </p>
+  <div class="wrapper">
+    <%= yield %>
+  </div>
+  
+  <!--<div id="sidebar">
+
+		<ul>
+			<li class="category">Website</li>
+			
+		</ul>
+
+		<ul>
+			<li class="category">Social</li>
+			<li><a href="https://twitter.com/mackenziechild">Twitter</a></li>
+			<li><a href="http://instagram.com/mackenziechild">Instagram</a></li>
+			<li><a href="https://github.com/mackenziechild">Github</a></li>
+			<li><a href="mailto:hey@mackenziechild.me">Email</a></li>
+		</ul>
+
+	</div>
+  
+</body>-->
+  
+  
+ 
+  <!--<script>
+      $().ready(function() {
+                $('#wrapper').tubular({videoId: 'ko8zeaXbB1Y'}); // where idOfYourVideo is the YouTube ID.
+        });
+      </script>-->
+</html>
